@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maintenance & Procurement Dependent Dropdown Guide</title>
+<style>
+  :root{
+    --blue:#1769d2;
+    --blue-dark:#0f4ea6;
+    --border:#cfd7e3;
+    --soft:#f5f8fc;
+    --text:#172033;
+    --muted:#5e6b7a;
+    --green:#13795b;
+    --amber:#9a6700;
+    --danger:#b42318;
+    --shadow:0 6px 24px rgba(16,24,40,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#eef3f8;color:var(--text);line-height:1.45}
+  .page{max-width:1280px;margin:0 auto;padding:28px 20px 48px}
+  .hero{background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:var(--shadow);margin-bottom:20px}
+  .hero h1{margin:0 0 8px;font-size:28px;color:#0d2f55}
+  .hero p{margin:0;color:var(--muted)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chip{background:#eaf3ff;color:#0e55ad;border:1px solid #cbe0fb;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700}
+  .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:start}
+  .card{background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+  .card h2{font-size:18px;margin:0;padding:16px 18px;border-bottom:1px solid var(--border);background:#fbfcfe;color:#153b66}
+  .body{padding:18px}
+  .step-title{font-size:13px;font-weight:800;color:#44617f;text-transform:uppercase;letter-spacing:.05em;margin:18px 0 9px}
+  .step-title:first-child{margin-top:0}
+  .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field.full{grid-column:1/-1}
+  label{font-weight:700;font-size:13px}
+  .req{color:var(--danger)}
+  select,input,textarea{width:100%;border:1px solid #9fb1c7;border-radius:9px;background:#fff;color:#0f172a;padding:11px 12px;font-size:14px;outline:none}
+  select:focus,input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(23,105,210,.12)}
+  textarea{min-height:84px;resize:vertical}
+  .hint{font-size:12px;color:var(--muted)}
+  .inline{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .radio{display:flex;align-items:center;gap:6px;font-size:13px}
+  .radio input{width:auto}
+  .notice{padding:12px 14px;border-radius:9px;background:#fff8e7;border:1px solid #f4d586;color:#6e5200;font-size:13px;margin-top:12px}
+  .preview{background:#f8fbff;border:1px solid #cfe0f4;border-radius:10px;padding:14px}
+  .preview strong{color:#154d8b}
+  .kv{display:grid;grid-template-columns:150px 1fr;gap:7px 12px;font-size:13px}
+  .kv div:nth-child(odd){font-weight:700;color:#40566d}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  button{border:0;border-radius:9px;padding:10px 14px;font-weight:700;cursor:pointer}
+  .primary{background:var(--blue);color:#fff}
+  .secondary{background:#e9eef5;color:#28425f}
+  .good{background:#e9f7f2;color:var(--green);border:1px solid #bfe6d7;padding:10px 12px;border-radius:9px;font-size:13px;margin-top:12px}
+  .table-wrap{overflow:auto}
+  table{width:100%;border-collapse:collapse;font-size:13px;min-width:980px}
+  th,td{border-bottom:1px solid #e5eaf0;padding:11px 10px;vertical-align:top;text-align:left}
+  th{background:#f7f9fc;color:#3d5570;position:sticky;top:0}
+  tbody tr:hover{background:#fbfdff}
+  .badge{display:inline-block;border-radius:999px;padding:3px 8px;background:#edf4ff;color:#0d5ab8;font-weight:700;font-size:11px;margin:2px 3px 2px 0}
+  .logic{font-size:13px}
+  .logic ol{margin:8px 0 0 20px;padding:0}
+  .logic li{margin:7px 0}
+  .section{margin-top:20px}
+  .footer-note{margin-top:18px;font-size:12px;color:#687586}
+  .activity-meta{font-size:12px;color:var(--muted);margin-top:-3px}
+  .type-pill{display:inline-block;border-radius:999px;padding:4px 9px;background:#edf4ff;color:#0d5ab8;font-weight:700;font-size:11px;white-space:nowrap}
+  .empty-log{text-align:center;color:var(--muted);padding:18px}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.kv{grid-template-columns:120px 1fr}}
+</style>
+</head>
+<body>
+<div class="page">
+  <section class="hero">
+    <h1>Request for Quotation</h1>
+    <p>Recommended field hierarchy for property maintenance requests, common-area work orders, repairs, replacements, and procurement specifications.</p>
+    <div class="chips">
+      <span class="chip">Property / Common Area</span><span class="chip">Action</span><span class="chip">Maintenance Category</span><span class="chip">Asset / Item</span><span class="chip">Type / Specification</span><span class="chip">Brand / Capacity</span><span class="chip">Procurement</span>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Interactive Dependent Dropdown Example</h2>
+      <div class="body">
+        <div class="step-title">Step 1 — Location</div>
+        <div class="form-grid">
+          <div class="field">
+            <label>Requestor <span class="req">*</span></label>
+            <select id="requestor">
+              <option value="">Select Requestor</option>
+              <option>Azam</option>
+              <option>Eid</option>
+              <option>Hakkim</option>
+              <option>Syed</option>
+              <option>Other</option>
+            </select>
+            <div class="hint">Name of the person who requested the maintenance work.</div>
+          </div>
+          <div class="field">
+            <label>Property Name <span class="req">*</span></label>
+            <select id="property">
+              <option value="">Select Property</option>
+              <option>13 (114-266) AL BUTEEN BUILDING</option>
+              <option>202155024 SHAMAL FARM</option>
+              <option>209115055 ORAIBI COMPLEX</option>
+              <option>211080092 AL JUWAIS VILLA</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Unit Number <span class="muted">(if needed)</span></label>
+            <select id="unit">
+              <option value="common">No Unit / Common Area</option>
+              <option>Shop 1</option><option>Shop 2</option><option>Shop 3</option>
+              <option>Office 1</option><option>Office 2</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="step-title">Step 2 — Work Action</div>
+        <div class="form-grid">
+          <div class="field">
+            <label>Action <span class="req">*</span></label>
+            <select id="action">
+              <option value="">Select Action</option>
+              <option value="install">Installation</option>
+              <option value="remove">Removal</option>
+              <option value="replace">Installation and Removal</option>
+              <option value="repair">Repair</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="step-title">Step 3 — Maintenance Category</div>
+        <div class="form-grid">
+          <div class="field">
+            <label>Maintenance Category <span class="req">*</span></label>
+            <select id="category"></select>
+          </div>
+          <div class="field">
+            <label>Asset / Item <span class="req">*</span></label>
+            <select id="asset"></select>
+          </div>
+          <div class="field">
+            <label>Type / Subtype</label>
+            <select id="subtype"></select>
+          </div>
+          <div class="field">
+            <label>Component / Work Part</label>
+            <select id="component"></select>
+          </div>
+        </div>
+
+        <div class="step-title">Step 4 — Technical Specification</div>
+        <div class="form-grid">
+          <div class="field">
+            <label>Brand / Manufacturer</label>
+            <select id="brand"></select>
+          </div>
+          <div class="field">
+            <label id="ratingLabel">Capacity / Rating</label>
+            <select id="rating"></select>
+          </div>
+          <div class="field">
+            <label>Quantity</label>
+            <input id="qty" type="number" min="1" value="1" />
+          </div>
+          <div class="field">
+            <label>Procurement Required?</label>
+            <select id="procurement">
+              <option>No — Repair / Service only</option>
+              <option>Yes — Material only</option>
+              <option>Yes — Material + Installation</option>
+              <option>Yes — External service / contractor</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label>Problem / Request Description</label>
+            <textarea id="description" placeholder="Example: Existing split AC is not cooling and compressor is damaged. Replace complete unit and test after installation."></textarea>
+          </div>
+        </div>
+
+        <div class="notice" id="actionNotice">Select an action. For Replacement, the system should capture both the old item details and the new item specification required for procurement.</div>
+
+        <div class="btns">
+          <button class="primary" id="submitBtn" type="button">Submit</button>
+          <button class="secondary" id="resetBtn" type="button">Reset Form</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="card">
+      <h2>Recommended ERP Logic</h2>
+      <div class="body logic">
+        <p><strong>Do not show every field at once.</strong> Each selection should narrow the next dropdown.</p>
+        <ol>
+          <li><strong>Property</strong> → choose <em>Specific Unit</em> or <em>Common Area</em>.</li>
+          <li><strong>Action</strong> → Installation, Removal, Installation and Removal, or Repair.</li>
+          <li><strong>Maintenance Category</strong> → AC, Electrical, Plumbing, and so on.</li>
+          <li><strong>Asset / Item</strong> → only items relevant to that category.</li>
+          <li><strong>Subtype</strong> → e.g. Split AC, Window AC, Ducted Split.</li>
+          <li><strong>Component</strong> → e.g. complete unit, compressor, fan motor, thermostat.</li>
+          <li><strong>Technical Specs</strong> → only specifications relevant to the selected asset.</li>
+          <li><strong>Procurement</strong> → create RFQ / purchase requirement only when needed.</li>
+        </ol>
+        <div class="good"><strong>Example:</strong> Property → Shop 2 → Installation and Removal → Air Conditioning → AC Unit → Split Type → Complete Unit → Carrier → 2 Ton → Qty 1 → Material + Installation.</div>
+
+        <div class="step-title">Action-specific behavior</div>
+        <div class="kv">
+          <div>Installation</div><div>Show new asset specifications, unit/common area, quantity and brand.</div>
+          <div>Removal</div><div>Show existing asset details and disposal / storage destination.</div>
+          <div>Installation and Removal</div><div>Show both the existing asset being removed and the new asset specification to be installed.</div>
+          <div>Repair</div><div>Show component/part and fault reason; procurement optional.</div>
+        </div>
+
+      </div>
+    </aside>
+  </div>
+
+  <section class="card section" id="activitySection">
+    <h2>Maintenance Request Activity Log</h2>
+    <div class="body">
+      <p class="activity-meta">Chronological record of submitted maintenance requests, including who requested the work and the submission date/time.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>DATE / TIME</th><th>TYPE</th><th>REQUESTOR</th><th>DETAILS</th></tr>
+          </thead>
+          <tbody id="activityLogBody">
+            <tr id="emptyLogRow"><td colspan="4" class="empty-log">No activity yet. Submit a maintenance request to create the first log entry.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="card section">
+    <h2>Top 10 Maintenance Categories — Definition & Dependent Dropdown Structure</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th><th>Category</th><th>Definition</th><th>Asset / Item Dropdown</th><th>Typical Type / Specification Dropdowns</th><th>Typical Components / Replacement Parts</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td><strong>Air Conditioning</strong></td><td>AC installation, removal, repair and replacement for units and common areas.</td><td>AC Unit, FCU, AHU, Exhaust Fan, Thermostat, Duct / Air Grille</td><td><span class="badge">Wall Split AC</span><span class="badge">Window AC</span><span class="badge">Ducted Split</span><span class="badge">Cassette</span><span class="badge">0.75–5 Ton</span></td><td>Complete AC, compressor, fan motor, capacitor, PCB, thermostat, coil, drain pump, filter.</td></tr>
+          <tr><td>2</td><td><strong>Electrical</strong></td><td>Lighting, switches, sockets, breakers, DBs, wiring and electrical controls.</td><td>Light, Switch, Socket, DB, MCB/RCCB/RCBO, Isolator, Cable, Emergency Light</td><td><span class="badge">Ceiling Light</span><span class="badge">Panel Light</span><span class="badge">Tube Light</span><span class="badge">Wall Light</span><span class="badge">Flood Light</span></td><td>LED lamp/driver, breaker, socket, switch, cable, fuse, contactor, timer, battery.</td></tr>
+          <tr><td>3</td><td><strong>Plumbing / Sanitary</strong></td><td>Water supply, sanitary fittings, drainage, water heaters, pumps and valves.</td><td>Toilet, Basin, Sink, Tap/Mixer, Shower/Shattaf, Water Heater, Pump, Pipe, Valve, Floor Drain</td><td><span class="badge">PPR</span><span class="badge">PVC</span><span class="badge">GI</span><span class="badge">Pipe Size</span><span class="badge">Tank Capacity</span></td><td>Cartridge, flexible hose, flush valve, cistern set, float valve, heater element, pump seal.</td></tr>
+          <tr><td>4</td><td><strong>Civil / Masonry</strong></td><td>Blockwork, plaster, concrete repair, screed, tiling, interlock and gypsum ceiling work.</td><td>Block Wall, Plaster Repair, Screed, Floor Tile, Wall Tile, Concrete Repair, Interlock, Gypsum Ceiling</td><td><span class="badge">Ceramic</span><span class="badge">Porcelain</span><span class="badge">Concrete Block</span><span class="badge">sqm</span><span class="badge">Thickness</span></td><td>Tiles, blocks, cement, grout, screed, plaster, repair mortar, joint filler.</td></tr>
+          <tr><td>5</td><td><strong>Carpentry / Doors</strong></td><td>Doors, frames, cabinets, wardrobes, kitchen units and related hardware.</td><td>Door, Door Frame, Kitchen Cabinet, Wardrobe, Cabinet, Shelf, Worktop</td><td><span class="badge">Wooden Door</span><span class="badge">MDF</span><span class="badge">Fire Rated</span><span class="badge">Sliding</span></td><td>Door leaf, frame, lock, handle, hinge, closer, drawer runner, shelf, laminate.</td></tr>
+          <tr><td>6</td><td><strong>Painting</strong></td><td>Internal, external, ceiling, metal, wood and floor coating works.</td><td>Internal Wall, Ceiling, External Wall, Metal Surface, Wood Surface, Floor Coating</td><td><span class="badge">Emulsion</span><span class="badge">Weatherproof</span><span class="badge">Enamel</span><span class="badge">Epoxy</span></td><td>Primer, putty, paint/top coat, texture, thinner and protection materials.</td></tr>
+          <tr><td>7</td><td><strong>Waterproofing</strong></td><td>Roof, bathroom, balcony, basement, tank and crack/joint leakage treatment.</td><td>Roof, Bathroom, Balcony, Basement, Water Tank, Joint / Crack Sealing</td><td><span class="badge">Membrane</span><span class="badge">Liquid</span><span class="badge">Cementitious</span><span class="badge">Injection</span></td><td>Primer, membrane, sealant, protection board, screed and joint filler.</td></tr>
+          <tr><td>8</td><td><strong>Fire & Safety</strong></td><td>Fire alarm, firefighting, emergency lighting, exit signage and fire doors.</td><td>Extinguisher, Smoke Detector, Heat Detector, Call Point, Sounder, Emergency Light, Hose Reel, Fire Door</td><td><span class="badge">Addressable</span><span class="badge">Conventional</span><span class="badge">CO2</span><span class="badge">Dry Powder</span></td><td>Detector, battery, call point glass, sounder, hose, nozzle, closer and fire door seal.</td></tr>
+          <tr><td>9</td><td><strong>Aluminium / Glass</strong></td><td>Aluminium doors/windows, glass panels, shopfronts, mirrors and partitions.</td><td>Aluminium Door, Window, Sliding Door, Glass Panel, Shopfront Glass, Mirror, Partition</td><td><span class="badge">Tempered Glass</span><span class="badge">Laminated Glass</span><span class="badge">Sliding</span><span class="badge">Fixed</span></td><td>Glass, frame, roller, handle, lock, hinge, gasket and silicone sealant.</td></tr>
+          <tr><td>10</td><td><strong>Lift / Elevator</strong></td><td>Passenger/service lift equipment, doors, buttons, lights, fans and intercoms.</td><td>Passenger Lift, Service Lift, Lift Door, Button/Panel, Light/Fan, Intercom</td><td><span class="badge">Passenger</span><span class="badge">Service</span><span class="badge">Door</span><span class="badge">Control Panel</span></td><td>Door roller, sensor, push button, display, light, fan, intercom, battery, control board.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+</div>
+<script>
+const data = {
+  "Air Conditioning": {
+    assets:["AC Unit","Fan Coil Unit (FCU)","Air Handling Unit (AHU)","Exhaust Fan","Thermostat","Duct / Air Grille"],
+    subtypes:{"AC Unit":["Wall Split AC","Window AC","Ducted Split AC","Cassette AC","Package AC"],"Fan Coil Unit (FCU)":["Ceiling Concealed FCU","Floor Mounted FCU","Cassette FCU"],"Air Handling Unit (AHU)":["Fresh Air AHU","Standard AHU"],"Exhaust Fan":["Wall Exhaust Fan","Ceiling Exhaust Fan","Inline Exhaust Fan"],"Thermostat":["Digital Thermostat","Mechanical Thermostat","BMS Thermostat"],"Duct / Air Grille":["GI Duct","Flexible Duct","Supply Grille","Return Grille"]},
+    components:["Complete AC Unit","Compressor","Indoor Fan Motor","Outdoor Fan Motor","Capacitor","PCB / Control Board","Thermostat","Evaporator Coil","Condenser Coil","Drain Pump","Air Filter","Copper Pipe / Insulation"],
+    brands:["Carrier","O General","Daikin","Super General","Gree"],
+    ratings:["0.75 Ton","1 Ton","1.5 Ton","2 Ton","2.5 Ton","3 Ton","4 Ton","5 Ton","Other / Enter Manually"],
+    ratingLabel:"Capacity / Rating"
+  },
+  "Electrical": {
+    assets:["Light","Switch","Socket","Distribution Board (DB)","MCB / RCCB / RCBO","Isolator","Cable / Wiring","Emergency Light","Contactor / Timer"],
+    subtypes:{"Light":["LED Ceiling Light","LED Panel Light","Tube Light","Wall Light","Flood Light","Outdoor Light","Decorative Light"],"Switch":["1 Gang","2 Gang","3 Gang","4 Gang"],"Socket":["13A Single Socket","13A Double Socket","Weatherproof Socket","Industrial Socket"],"Distribution Board (DB)":["Single Phase DB","Three Phase DB"],"MCB / RCCB / RCBO":["1 Pole","2 Pole","3 Pole","4 Pole"],"Isolator":["Single Phase Isolator","Three Phase Isolator"],"Cable / Wiring":["Single Core Cable","Twin Cable","Armoured Cable","Flexible Cable"],"Emergency Light":["Emergency Light","Exit Light"],"Contactor / Timer":["Contactor","Timer","Relay"]},
+    components:["Complete Item","LED Lamp / Driver","Breaker","Socket","Switch","Cable","Fuse","Contactor","Timer","Battery"],
+    brands:["Schneider Electric","Legrand","ABB","Hager","MK Electric"],
+    brandByAsset:{"Light":["Philips","LEDVANCE / Osram","Opple","NVC","Panasonic"],"Switch":["Schneider Electric","Legrand","MK Electric","ABB","Hager"],"Socket":["Schneider Electric","Legrand","MK Electric","ABB","Hager"],"Distribution Board (DB)":["Schneider Electric","ABB","Hager","Legrand","Siemens"],"MCB / RCCB / RCBO":["Schneider Electric","ABB","Hager","Legrand","Siemens"],"Cable / Wiring":["Ducab","Oman Cables","National Cables","Elsewedy Electric","Riyadh Cables"]},
+    ratings:["6A","10A","16A","20A","25A","32A","40A","63A","100A","230V","415V","Other / Enter Manually"],
+    ratingLabel:"Amp / Voltage / Rating"
+  },
+  "Plumbing / Sanitary": {
+    assets:["Toilet / WC","Wash Basin","Kitchen Sink","Tap / Mixer","Shower / Shattaf","Water Heater","Water Pump","Pipe","Valve","Floor Drain"],
+    subtypes:{"Toilet / WC":["Floor Mounted Toilet","Wall Hung Toilet"],"Wash Basin":["Counter Basin","Wall Hung Basin","Pedestal Basin"],"Kitchen Sink":["Single Bowl Sink","Double Bowl Sink"],"Tap / Mixer":["Basin Mixer","Kitchen Mixer","Shower Mixer","Bib Tap"],"Shower / Shattaf":["Hand Shower","Shower Set","Shattaf"],"Water Heater":["Storage Water Heater","Instant Water Heater"],"Water Pump":["Booster Pump","Transfer Pump","Submersible Pump"],"Pipe":["PPR Pipe","PVC Pipe","UPVC Pipe","GI Pipe","Copper Pipe"],"Valve":["Ball Valve","Gate Valve","Check Valve","Pressure Reducing Valve"],"Floor Drain":["Floor Drain","Cleanout","Drain Cover"]},
+    components:["Complete Item","Tap Cartridge","Flexible Hose","Flush Valve","Cistern Set","Float Valve","Heating Element","Thermostat","Pump Motor","Mechanical Seal","Valve","Trap"],
+    brands:["RAK Ceramics","Grohe","Geberit","Ariston","Grundfos"],
+    brandByAsset:{"Toilet / WC":["RAK Ceramics","Grohe","Geberit","Ideal Standard","Jaquar"],"Wash Basin":["RAK Ceramics","Grohe","Ideal Standard","Jaquar","Geberit"],"Kitchen Sink":["RAK Ceramics","Franke","Teka","Grohe","Jaquar"],"Tap / Mixer":["Grohe","Jaquar","RAK Ceramics","Ideal Standard","Geberit"],"Shower / Shattaf":["Grohe","Jaquar","RAK Ceramics","Ideal Standard","Geberit"],"Water Heater":["Ariston","Super General","Rheem","Atlantic","A. O. Smith"],"Water Pump":["Grundfos","Wilo","Ebara","Lowara","DAB"]},
+    ratings:["15 mm","20 mm","25 mm","32 mm","40 mm","50 mm","80 mm","100 mm","30 L","50 L","80 L","100 L","Other / Enter Manually"],
+    ratingLabel:"Size / Capacity"
+  },
+  "Civil / Masonry": {
+    assets:["Block Wall","Plaster Repair","Floor Screed","Floor Tile","Wall Tile","Concrete Repair","Interlock / Paving","Kerb Stone","Gypsum Ceiling"],
+    subtypes:{"Floor Tile":["Ceramic Tile","Porcelain Tile","Granite","Marble"],"Wall Tile":["Ceramic Tile","Porcelain Tile","Stone Tile"],"Block Wall":["Concrete Block","AAC Block","Partition Wall"],"Concrete Repair":["Concrete Patch Repair","New Concrete"],"Plaster Repair":["Internal Plaster","External Plaster"],"Interlock / Paving":["Interlock","Paver","Tactile Paver"],"Gypsum Ceiling":["Gypsum Board Ceiling","Cement Board Ceiling"]},
+    components:["Complete Area","Tile","Block","Cement","Grout","Screed","Plaster","Repair Mortar","Joint Filler"],
+    brands:["RAK Ceramics","Sika","Fosroc","Weber","Mapei"],
+    ratings:["Dimension","sqm Area","Thickness","Grade / Strength","Other / Enter Manually"],
+    ratingLabel:"Dimension / Area / Grade"
+  },
+  "Carpentry / Doors": {
+    assets:["Door","Door Frame","Kitchen Cabinet","Wardrobe","Cabinet","Shelf","Counter / Worktop"],
+    subtypes:{"Door":["Wooden Door","MDF Door","Fire Rated Door","PVC Door"],"Door Frame":["Wooden Frame","Metal Frame"],"Kitchen Cabinet":["Base Cabinet","Wall Cabinet"],"Wardrobe":["Hinged Wardrobe","Sliding Wardrobe"],"Cabinet":["Vanity Cabinet","Storage Cabinet"],"Shelf":["Wood Shelf","MDF Shelf","Laminated Shelf"],"Counter / Worktop":["Laminate Worktop","Stone Worktop","Solid Surface Worktop"]},
+    components:["Complete Item","Door Leaf","Door Frame","Lock","Handle","Hinge","Door Closer","Drawer Runner","Shelf","Laminate / Finish"],
+    brands:["Hafele","dormakaba","Yale","Hettich","Blum"],
+    ratings:["Width / Height","Thickness","Fire Rating","Finish Code","Other / Enter Manually"],
+    ratingLabel:"Dimension / Rating"
+  },
+  "Painting": {
+    assets:["Internal Wall","Ceiling","External Wall","Metal Surface","Wood Surface","Floor Coating"],
+    subtypes:{"Internal Wall":["Emulsion Paint","Washable Paint"],"Ceiling":["Matt Paint","Anti-Mould Paint"],"External Wall":["Weatherproof Paint","Texture Paint"],"Metal Surface":["Enamel Paint","Epoxy Paint","Anti-Rust Paint"],"Wood Surface":["Enamel Paint","Wood Stain","Varnish"],"Floor Coating":["Epoxy Floor Paint","Protective Floor Coating"]},
+    components:["Primer","Putty / Filler","Paint / Top Coat","Texture","Thinner","Masking / Protection"],
+    brands:["Jotun","National Paints","Asian Paints","Caparol","Berger Paints"],
+    ratings:["Colour Code","Matt","Satin","Gloss","sqm Area","2 Coats","3 Coats","Other / Enter Manually"],
+    ratingLabel:"Colour / Finish / Area"
+  },
+  "Waterproofing": {
+    assets:["Roof Waterproofing","Bathroom Waterproofing","Balcony Waterproofing","Basement Waterproofing","Water Tank Waterproofing","Joint / Crack Sealing"],
+    subtypes:{"Roof Waterproofing":["Torch Applied Membrane","Liquid Waterproofing","Cementitious Waterproofing"],"Bathroom Waterproofing":["Cementitious Waterproofing","Liquid Waterproofing"],"Balcony Waterproofing":["Liquid Waterproofing","Cementitious Waterproofing","Sheet Membrane"],"Basement Waterproofing":["Internal Waterproofing","External Waterproofing","Injection Repair"],"Water Tank Waterproofing":["Potable Water Coating","Cementitious Waterproofing"],"Joint / Crack Sealing":["Sealant","Joint Membrane","Injection Repair"]},
+    components:["Complete System","Primer","Waterproofing Membrane","Sealant","Protection Board","Screed","Joint Filler"],
+    brands:["Sika","Fosroc","Mapei","Bitumat","Henkel"],
+    ratings:["1.5 mm","2 mm","3 mm","4 mm","5 mm","sqm Area","Other / Enter Manually"],
+    ratingLabel:"Thickness / Area"
+  },
+  "Fire & Safety": {
+    assets:["Fire Extinguisher","Smoke Detector","Heat Detector","Manual Call Point","Fire Alarm Sounder","Emergency Light","Exit Sign","Fire Hose Reel","Fire Door"],
+    subtypes:{"Fire Extinguisher":["CO2 Extinguisher","Dry Powder Extinguisher","Foam Extinguisher","Wet Chemical Extinguisher"],"Smoke Detector":["Addressable Smoke Detector","Conventional Smoke Detector"],"Heat Detector":["Addressable Heat Detector","Conventional Heat Detector"],"Manual Call Point":["Addressable","Conventional"],"Fire Alarm Sounder":["Sounder","Sounder with Strobe"],"Emergency Light":["Emergency Light"],"Exit Sign":["Single Face Exit Sign","Double Face Exit Sign"],"Fire Hose Reel":["Fire Hose Reel"],"Fire Door":["Single Door","Double Door"]},
+    components:["Complete Item","Battery","Detector Head","Call Point Glass","Sounder","Hose","Nozzle","Door Closer","Fire Door Seal"],
+    brands:["Honeywell / Notifier","Siemens","Hochiki","NAFFCO","Apollo"],
+    ratings:["2 kg","4 kg","6 kg","9 kg","30 min","60 min","90 min","120 min","Other / Enter Manually"],
+    ratingLabel:"Capacity / Fire Rating"
+  },
+  "Aluminium / Glass": {
+    assets:["Aluminium Door","Aluminium Window","Sliding Door","Glass Panel","Shopfront Glass","Mirror","Aluminium Partition"],
+    subtypes:{"Aluminium Door":["Hinged Door","Sliding Door"],"Aluminium Window":["Sliding Window","Fixed Window","Openable Window"],"Sliding Door":["2 Panel","3 Panel","4 Panel"],"Glass Panel":["Clear Glass","Tinted Glass","Tempered Glass","Laminated Glass"],"Shopfront Glass":["Tempered Glass","Laminated Glass"],"Mirror":["Plain Mirror","Bevelled Mirror"],"Aluminium Partition":["Glass Partition","Solid Panel Partition"]},
+    components:["Complete Item","Glass","Aluminium Frame","Roller","Handle","Lock","Hinge","Rubber / Gasket","Silicone Sealant"],
+    brands:["Gulf Extrusions","Emirates Extrusion","Dormakaba","Dorma","Saint-Gobain Glass"],
+    ratings:["4 mm","6 mm","8 mm","10 mm","12 mm","Width / Height","sqm Area","Other / Enter Manually"],
+    ratingLabel:"Glass Thickness / Dimension"
+  },
+  "Lift / Elevator": {
+    assets:["Passenger Lift","Service Lift","Lift Door","Lift Button / Panel","Lift Light / Fan","Lift Intercom"],
+    subtypes:{"Passenger Lift":["Complete Lift","Lift Car"],"Service Lift":["Complete Lift","Lift Car"],"Lift Door":["Landing Door","Car Door"],"Lift Button / Panel":["Landing Button","Car Operating Panel"],"Lift Light / Fan":["Car Light","Car Fan"],"Lift Intercom":["Intercom Unit","Emergency Phone"]},
+    components:["Complete Item","Door Roller","Door Sensor","Push Button","Display","Light","Fan","Intercom","Battery","Control Board"],
+    brands:["Otis","KONE","Schindler","Mitsubishi Electric","TK Elevator"],
+    ratings:["Passenger Capacity","kg Capacity","Number of Floors","Other / Enter Manually"],
+    ratingLabel:"Capacity / Floors"
+  }
+};
+const category = document.getElementById('category');
+const asset = document.getElementById('asset');
+const subtype = document.getElementById('subtype');
+const component = document.getElementById('component');
+const brand = document.getElementById('brand');
+const rating = document.getElementById('rating');
+const ratingLabel = document.getElementById('ratingLabel');
+
+function fill(sel, arr, placeholder){sel.innerHTML=''; const o=document.createElement('option');o.value='';o.textContent=placeholder;sel.appendChild(o);(arr||[]).forEach(v=>{const x=document.createElement('option');x.value=v;x.textContent=v;sel.appendChild(x)})}
+Object.keys(data).forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=k;category.appendChild(o)});
+category.insertAdjacentHTML('afterbegin','<option value="">Select Category</option>');
+
+function updateCategory(){
+ const d=data[category.value];
+ if(!d){fill(asset,[],"Select Asset / Item");fill(subtype,[],"Select Type / Subtype");fill(component,[],"Select Component");fill(brand,[],"Select Brand");fill(rating,[],"Select Capacity / Rating");return}
+ fill(asset,d.assets,"Select Asset / Item");
+ fill(component,d.components,"Select Component / Work Part");
+ fill(brand,d.brands,"Select Brand / Manufacturer");
+ fill(rating,d.ratings,"Select " + d.ratingLabel);
+ ratingLabel.textContent=d.ratingLabel;
+ fill(subtype,[],"Select Asset first");
+}
+function updateAsset(){
+ const d=data[category.value]; if(!d)return;
+ fill(subtype,(d.subtypes||{})[asset.value]||["Standard / Not Applicable"],"Select Type / Subtype");
+ fill(brand,(d.brandByAsset||{})[asset.value]||d.brands||[],"Select Brand / Manufacturer");
+}
+category.addEventListener('change',updateCategory); asset.addEventListener('change',updateAsset);
+
+
+document.getElementById('action').addEventListener('change',e=>{
+ const notes={
+  install:'Installation: capture full new-item specification, quantity, brand/model and exact installation location.',
+  remove:'Removal: capture the existing asset, reason for removal and disposal/storage destination.',
+  replace:'Installation and Removal: capture the existing asset being removed and the new specification required for procurement and installation.',
+  repair:'Repair: focus on the failed component/part. Procurement can be material only or external service.'
+ };
+ document.getElementById('actionNotice').textContent=notes[e.target.value]||'Select an action. For Replacement, the system should capture both the old item details and the new item specification required for procurement.';
+});
+
+document.getElementById('submitBtn').addEventListener('click',()=>{
+ const requestor=document.getElementById('requestor').value;
+ const property=document.getElementById('property').value;
+ const unit=document.getElementById('unit').value;
+ const action=document.getElementById('action');
+ const actionText=action.options[action.selectedIndex]?.text||'';
+ const categoryValue=category.value;
+ const assetValue=asset.value;
+ if(!requestor||!property||!action.value||!categoryValue||!assetValue){
+   alert('Please complete Requestor, Property Name, Action, Maintenance Category, and Asset / Item before submitting.');
+   return;
+ }
+ const now=new Date();
+ const dateTime=now.toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:true});
+ const unitText=unit==='common'?'No Unit / Common Area':unit;
+ const subtypeValue=subtype.value?` · ${subtype.value}`:'';
+ const ratingValue=rating.value?` · ${rating.value}`:'';
+ const qty=document.getElementById('qty').value||'1';
+ const detail=`${property} · ${unitText} — ${actionText}: ${categoryValue} · ${assetValue}${subtypeValue}${ratingValue} · Qty ${qty}.`;
+ const body=document.getElementById('activityLogBody');
+ const empty=document.getElementById('emptyLogRow');
+ if(empty) empty.remove();
+ const row=document.createElement('tr');
+ row.innerHTML=`<td>${dateTime}</td><td><span class="type-pill">Request Submitted</span></td><td>${requestor}</td><td>${detail}</td>`;
+ body.insertBefore(row,body.firstChild);
+ document.getElementById('activitySection').scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+document.getElementById('resetBtn').addEventListener('click',()=>location.reload());
+updateCategory();
+</script>
+</body>
+</html>
